@@ -14,6 +14,7 @@ class SlackApiController < ApplicationController
 
   def render_slack_response(text)
     {
+      response_type: 'in_channel',
       blocks: [
         {
           type: 'section',
