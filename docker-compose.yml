@@ -1,0 +1,16 @@
+# This Docker Compose file contains base configuration (containers that should always run).
+# This file is optionally extended by other docker-compose.*.yml files in this directory.
+# Docs: https://docs.docker.com/compose/extends/
+---
+version: '3.7'
+
+services:
+  covid-slack-bot:
+    image: postgres:12.2
+    environment:
+      POSTGRES_PASSWORD: "covid"
+      POSTGRES_DB: "covid-db"
+    volumes:
+      - ./tmp/db:/var/lib/postgresql/data
+    ports:
+      - '5432:5432'
