@@ -16,7 +16,4 @@ test:
   database: covid_test
 
 production:
-  <<: *default
-  database: covid_production
-  username: covid-slack-bot
-  password: <%= ENV['COVID-SLACK-BOT_DATABASE_PASSWORD'] %>
+  url: <%= ENV['DATABASE_URL'] %>
