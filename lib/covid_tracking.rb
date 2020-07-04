@@ -5,8 +5,8 @@ class CovidTracking
   include HTTParty
   base_uri 'https://covidtracking.com'
 
-  def self.current_values(state)
-    response = self.class.get("api/v1/states/#{state}/current.json")
-    JSON.parse(response)
+  def current_values(state)
+    response = self.class.get("/api/v1/states/#{state}/current.json")
+    JSON.parse(response.body)
   end
 end

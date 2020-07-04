@@ -3,7 +3,8 @@
 # Handles API events from Slack
 class SlackApiController < ApplicationController
   def covid
-    current_state_values = CovidTracking.current_values('CA')
+    covid_tracker = CovidTracking.new
+    current_state_values = covid_tracker.current_values('ca')
     positive = current_state_values['positive']
     negative = current_state_values['negative']
     render json: render_slack_response("positive: #{positive}, negative: #{negative}"), status: :ok
