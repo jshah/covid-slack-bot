@@ -3,6 +3,8 @@
 # Handles API events from Slack
 class SlackApiController < ApplicationController
   def covid
-    render status: 200, json: @controller.to_json
+    puts "headers=#{request.headers}"
+    puts "body=#{request.body}"
+    render json: {}, status: :ok
   end
 end
