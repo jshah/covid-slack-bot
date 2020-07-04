@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Handles API events from Slack
 class SlackApiController < ApplicationController
   def covid
