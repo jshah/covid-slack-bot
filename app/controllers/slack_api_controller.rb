@@ -19,13 +19,19 @@ class SlackApiController < ApplicationController
       current_state_values[:negative],
       current_state_values[:negativeIncrease],
       current_state_values[:death],
-      current_state_values[:deathIncrease]
+      current_state_values[:deathIncrease],
+      calculate_day_over_day_change(current_state_values[:state], current_state_values[:date], :positiveIncrease),
+      calculate_7_day_moving_average(current_state_values[:state], current_state_values[:date], :positiveIncrease)
     )
     render json: slack_response, status: :ok
   end
 
-  def current_state_values(state)
-    covid_tracker.current_data_for_state(state)
+  def current_state_values(state_code)
+    @current_state_values ||= covid_tracker.current_data_for_state(state_code)
+  end
+
+  def historic_state_data(state_code)
+    @historic_state_data ||= covid_tracker.historic_data_for_state(state_code)
   end
 
   private
@@ -61,6 +67,22 @@ class SlackApiController < ApplicationController
     us_country.subregions.coded(state_abbr).name
   end
 
+  def calculate_day_over_day_change(state_code, date, metric)
+    historic_state_data = historic_state_data(state_code)
+    index = historic_state_data.find_index { |day_data| day_data[:date] == date }
+    historic_state_data[index][metric] - historic_state_data[index + 1][metric]
+  end
+
+  def calculate_7_day_moving_average(state_code, date, metric)
+    historic_state_data = historic_state_data(state_code)
+    index = historic_state_data.find_index { |day_data| day_data[:date] == date }
+    total = 0
+    (index..index + 7).each do |i|
+      total += historic_state_data[i][metric]
+    end
+    total / 7
+  end
+
   def render_slack_response(
     state,
     date,
@@ -69,7 +91,9 @@ class SlackApiController < ApplicationController
     total_negative,
     daily_negative_difference,
     total_deaths,
-    daily_death_difference
+    daily_death_difference,
+    positive_cases_dod,
+    positive_cases_7_day_moving_average
   )
     {
       response_type: 'in_channel',
@@ -141,6 +165,30 @@ class SlackApiController < ApplicationController
             {
               type: 'plain_text',
               text: number_with_delimiter(daily_death_difference).to_s
+            }
+          ]
+        },
+        {
+          type: 'divider'
+        },
+        {
+          type: 'section',
+          fields: [
+            {
+              type: 'mrkdwn',
+              text: '*Rate of Positive Cases (Day/Day Change)*'
+            },
+            {
+              type: 'mrkdwn',
+              text: '*Positive Cases (7-Day Moving Average)*'
+            },
+            {
+              type: 'plain_text',
+              text: number_with_delimiter(positive_cases_dod).to_s
+            },
+            {
+              type: 'plain_text',
+              text: number_with_delimiter(positive_cases_7_day_moving_average).to_s
             }
           ]
         },
