@@ -1,5 +1,20 @@
 AllCops:
   NewCops: enable
 
+Layout/EmptyLineAfterGuardClause:
+  Enabled: false
+
+Metrics/AbcSize:
+  Enabled: false
+
+Metrics/ClassLength:
+  Enabled: false
+
 Metrics/MethodLength:
+  Enabled: false
+
+Metrics/ParameterLists:
+  Max: 10
+
+Style/RedundantException:
   Enabled: false
