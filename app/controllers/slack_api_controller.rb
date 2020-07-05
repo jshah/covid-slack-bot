@@ -90,7 +90,7 @@ class SlackApiController < ApplicationController
             },
             {
               type: 'mrkdwn',
-              text: '*Daily Difference In Positive Cases*'
+              text: '*New Positive Cases*'
             },
             {
               type: 'plain_text',
@@ -111,7 +111,7 @@ class SlackApiController < ApplicationController
             },
             {
               type: 'mrkdwn',
-              text: '*Daily Difference In Negative Cases*'
+              text: '*New Negative Cases*'
             },
             {
               type: 'plain_text',
@@ -132,7 +132,7 @@ class SlackApiController < ApplicationController
             },
             {
               type: 'mrkdwn',
-              text: '*Daily Difference In Deaths*'
+              text: '*New Deaths*'
             },
             {
               type: 'plain_text',
