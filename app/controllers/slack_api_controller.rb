@@ -2,6 +2,8 @@
 
 # Handles API events from Slack
 class SlackApiController < ApplicationController
+  include ActionView::Helpers::NumberHelper
+
   SLACK_CURRENT_STATE_DATA_COMMAND = '/covid'
 
   before_action :validate_params
@@ -92,11 +94,11 @@ class SlackApiController < ApplicationController
             },
             {
               type: 'plain_text',
-              text: total_positive.to_s
+              text: number_with_delimiter(total_positive).to_s
             },
             {
               type: 'plain_text',
-              text: daily_positive_difference.to_s
+              text: number_with_delimiter(daily_positive_difference).to_s
             }
           ]
         },
@@ -113,11 +115,11 @@ class SlackApiController < ApplicationController
             },
             {
               type: 'plain_text',
-              text: total_negative.to_s
+              text: number_with_delimiter(total_negative).to_s
             },
             {
               type: 'plain_text',
-              text: daily_negative_difference.to_s
+              text: number_with_delimiter(daily_negative_difference).to_s
             }
           ]
         },
@@ -134,11 +136,11 @@ class SlackApiController < ApplicationController
             },
             {
               type: 'plain_text',
-              text: total_deaths.to_s
+              text: number_with_delimiter(total_deaths).to_s
             },
             {
               type: 'plain_text',
-              text: daily_death_difference.to_s
+              text: number_with_delimiter(daily_death_difference).to_s
             }
           ]
         },
