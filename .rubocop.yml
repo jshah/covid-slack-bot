@@ -1,5 +1,15 @@
 AllCops:
+  Exclude:
+    - 'db/**/*'
+    - 'config/**/*'
+    - 'script/**/*'
+    - 'bin/{rails,rake}'
+    - 'vendor/**/*'
+    - 'spec/fixtures/**/*'
+    - 'tmp/**/*'
+    - 'out/**/*'
   NewCops: enable
+  TargetRubyVersion: 2.6.2
 
 Layout/EmptyLineAfterGuardClause:
   Enabled: false
