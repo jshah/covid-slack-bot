@@ -83,10 +83,10 @@ class CovidStateData
   def calculate_7_day_moving_average(historic_state_data, date, metric)
     index = historic_state_data.find_index { |day_data| day_data[:date] == date }
     total = 0
-    (index..index + 7).each do |i|
+    (index...index + 7).each do |i|
       total += historic_state_data[i][metric]
     end
-    total / 7
+    (total / 7.0).round
   end
 
   def add_sign_and_delimiter(num)
@@ -219,7 +219,7 @@ class CovidStateData
           fields: [
             {
               type: 'mrkdwn',
-              text: '*Positive Cases (Daily Change)*'
+              text: '*New Positive Cases (Daily Change)*'
             },
             {
               type: 'mrkdwn',
@@ -240,7 +240,7 @@ class CovidStateData
           fields: [
             {
               type: 'mrkdwn',
-              text: '*Negative Cases (Daily Change)*'
+              text: '*New Negative Cases (Daily Change)*'
             },
             {
               type: 'mrkdwn',
@@ -261,7 +261,7 @@ class CovidStateData
           fields: [
             {
               type: 'mrkdwn',
-              text: '*Deaths (Daily Change)*'
+              text: '*New Deaths (Daily Change)*'
             },
             {
               type: 'mrkdwn',
@@ -285,7 +285,7 @@ class CovidStateData
           elements: [
             {
               type: 'mrkdwn',
-              text: 'Data provided by https://covidtracking.com/.'
+              text: 'Data provided by https://covidtracking.com/'
             }
           ]
         }
