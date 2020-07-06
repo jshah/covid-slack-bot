@@ -89,8 +89,9 @@ class CovidStateData
     total / 7
   end
 
-  def infection_rate
-
+  def add_sign_and_delimiter(num)
+    sign = num.positive? ? '+' : ''
+    "#{sign}#{number_with_delimiter(num)}"
   end
 
   def render_incorrect_parameter_length_response
@@ -160,11 +161,11 @@ class CovidStateData
             },
             {
               type: 'plain_text',
-              text: number_with_delimiter(total_positive).to_s
+              text: number_with_delimiter(total_positive)
             },
             {
               type: 'plain_text',
-              text: number_with_delimiter(daily_positive_difference).to_s
+              text: number_with_delimiter(daily_positive_difference)
             }
           ]
         },
@@ -181,11 +182,11 @@ class CovidStateData
             },
             {
               type: 'plain_text',
-              text: number_with_delimiter(total_negative).to_s
+              text: number_with_delimiter(total_negative)
             },
             {
               type: 'plain_text',
-              text: number_with_delimiter(daily_negative_difference).to_s
+              text: number_with_delimiter(daily_negative_difference)
             }
           ]
         },
@@ -202,11 +203,11 @@ class CovidStateData
             },
             {
               type: 'plain_text',
-              text: number_with_delimiter(total_deaths).to_s
+              text: number_with_delimiter(total_deaths)
             },
             {
               type: 'plain_text',
-              text: number_with_delimiter(daily_death_difference).to_s
+              text: number_with_delimiter(daily_death_difference)
             }
           ]
         },
@@ -226,11 +227,11 @@ class CovidStateData
             },
             {
               type: 'plain_text',
-              text: number_with_delimiter(positive_cases_dod).to_s
+              text: add_sign_and_delimiter(positive_cases_dod)
             },
             {
               type: 'plain_text',
-              text: number_with_delimiter(positive_cases_7_day_moving_average).to_s
+              text: number_with_delimiter(positive_cases_7_day_moving_average)
             }
           ]
         },
@@ -247,11 +248,11 @@ class CovidStateData
             },
             {
               type: 'plain_text',
-              text: number_with_delimiter(negative_cases_dod).to_s
+              text: add_sign_and_delimiter(negative_cases_dod)
             },
             {
               type: 'plain_text',
-              text: number_with_delimiter(negative_cases_7_day_moving_average).to_s
+              text: number_with_delimiter(negative_cases_7_day_moving_average)
             }
           ]
         },
@@ -268,11 +269,11 @@ class CovidStateData
             },
             {
               type: 'plain_text',
-              text: number_with_delimiter(deaths_dod).to_s
+              text: add_sign_and_delimiter(deaths_dod)
             },
             {
               type: 'plain_text',
-              text: number_with_delimiter(deaths_7_day_moving_average).to_s
+              text: number_with_delimiter(deaths_7_day_moving_average)
             }
           ]
         },
