@@ -24,7 +24,7 @@ Metrics/MethodLength:
   Enabled: false
 
 Metrics/ParameterLists:
-  Max: 10
+  Max: 20
 
 Style/RedundantException:
   Enabled: false

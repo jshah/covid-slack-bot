@@ -33,7 +33,11 @@ class CovidStateData
       current_state_data[:death],
       current_state_data[:deathIncrease],
       calculate_day_over_day_change(historic_state_data, date, :positiveIncrease),
-      calculate_7_day_moving_average(historic_state_data, date, :positiveIncrease)
+      calculate_7_day_moving_average(historic_state_data, date, :positiveIncrease),
+      calculate_day_over_day_change(historic_state_data, date, :negativeIncrease),
+      calculate_7_day_moving_average(historic_state_data, date, :negativeIncrease),
+      calculate_day_over_day_change(historic_state_data, date, :deathIncrease),
+      calculate_7_day_moving_average(historic_state_data, date, :deathIncrease)
     )
   end
 
@@ -85,6 +89,10 @@ class CovidStateData
     total / 7
   end
 
+  def infection_rate
+
+  end
+
   def render_incorrect_parameter_length_response
     {
       blocks: [
@@ -123,7 +131,11 @@ class CovidStateData
     total_deaths,
     daily_death_difference,
     positive_cases_dod,
-    positive_cases_7_day_moving_average
+    positive_cases_7_day_moving_average,
+    negative_cases_dod,
+    negative_cases_7_day_moving_average,
+    deaths_dod,
+    deaths_7_day_moving_average
   )
     {
       response_type: 'in_channel',
@@ -206,7 +218,7 @@ class CovidStateData
           fields: [
             {
               type: 'mrkdwn',
-              text: '*Rate of Positive Cases (Day/Day Change)*'
+              text: '*Positive Cases (Daily Change)*'
             },
             {
               type: 'mrkdwn',
@@ -219,6 +231,48 @@ class CovidStateData
             {
               type: 'plain_text',
               text: number_with_delimiter(positive_cases_7_day_moving_average).to_s
+            }
+          ]
+        },
+        {
+          type: 'section',
+          fields: [
+            {
+              type: 'mrkdwn',
+              text: '*Negative Cases (Daily Change)*'
+            },
+            {
+              type: 'mrkdwn',
+              text: '*Negative Cases (7-Day Moving Average)*'
+            },
+            {
+              type: 'plain_text',
+              text: number_with_delimiter(negative_cases_dod).to_s
+            },
+            {
+              type: 'plain_text',
+              text: number_with_delimiter(negative_cases_7_day_moving_average).to_s
+            }
+          ]
+        },
+        {
+          type: 'section',
+          fields: [
+            {
+              type: 'mrkdwn',
+              text: '*Deaths (Daily Change)*'
+            },
+            {
+              type: 'mrkdwn',
+              text: '*Deaths (7-Day Moving Average)*'
+            },
+            {
+              type: 'plain_text',
+              text: number_with_delimiter(deaths_dod).to_s
+            },
+            {
+              type: 'plain_text',
+              text: number_with_delimiter(deaths_7_day_moving_average).to_s
             }
           ]
         },
