@@ -18,21 +18,22 @@ class CovidStateData
     return render_incorrect_parameter_length_response unless validate_command_parameter_length
     return render_invalid_state_response unless validate_command_parameter_is_valid_state
 
-    current_state_values = current_state_values(command_parameter)
-    state = current_state_values[:state]
-    date = current_state_values[:date]
+    current_state_data = current_state_data(command_parameter)
+    state = current_state_data[:state]
+    date = current_state_data[:date]
+    historic_state_data = historic_state_data(command_parameter)
 
     render_state_covid_data_response(
       state_abbr_to_name(state),
       format_date_to_human_readable(date.to_s),
-      current_state_values[:positive],
-      current_state_values[:positiveIncrease],
-      current_state_values[:negative],
-      current_state_values[:negativeIncrease],
-      current_state_values[:death],
-      current_state_values[:deathIncrease],
-      calculate_day_over_day_change(state, date, :positiveIncrease),
-      calculate_7_day_moving_average(state, date, :positiveIncrease)
+      current_state_data[:positive],
+      current_state_data[:positiveIncrease],
+      current_state_data[:negative],
+      current_state_data[:negativeIncrease],
+      current_state_data[:death],
+      current_state_data[:deathIncrease],
+      calculate_day_over_day_change(historic_state_data, date, :positiveIncrease),
+      calculate_7_day_moving_average(historic_state_data, date, :positiveIncrease)
     )
   end
 
@@ -50,7 +51,7 @@ class CovidStateData
     @covid_tracker_api ||= CovidTrackingApi.new
   end
 
-  def current_state_values(state_code)
+  def current_state_data(state_code)
     covid_tracker_api.current_data_for_state(state_code)
   end
 
@@ -70,14 +71,12 @@ class CovidStateData
     Date.parse(date).to_formatted_s(:long_ordinal)
   end
 
-  def calculate_day_over_day_change(state_code, date, metric)
-    historic_state_data = historic_state_data(state_code)
+  def calculate_day_over_day_change(historic_state_data, date, metric)
     data_for_date = historic_state_data.find_index { |day_data| day_data[:date] == date }
     historic_state_data[data_for_date][metric] - historic_state_data[data_for_date + 1][metric]
   end
 
-  def calculate_7_day_moving_average(state_code, date, metric)
-    historic_state_data = historic_state_data(state_code)
+  def calculate_7_day_moving_average(historic_state_data, date, metric)
     index = historic_state_data.find_index { |day_data| day_data[:date] == date }
     total = 0
     (index..index + 7).each do |i|
