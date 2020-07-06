@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Wrapper for HTTP requests to https://covidtracking.com/api
-class CovidTracking
+class CovidTrackingApi
   include HTTParty
   base_uri 'https://covidtracking.com'
 
