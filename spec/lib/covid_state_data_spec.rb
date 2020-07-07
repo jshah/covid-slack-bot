@@ -60,7 +60,7 @@ RSpec.describe CovidStateData do
         deathIncrease: 2
       }
     end
-    let(:covid_historical_state_data) {
+    let(:covid_historical_state_data) do
       [
         covid_current_state_data,
         mock_current_state_data,
@@ -73,7 +73,7 @@ RSpec.describe CovidStateData do
         mock_current_state_data,
         mock_current_state_data
       ]
-    }
+    end
     let(:covid_tracker) { CovidTrackingApi.new }
 
     before do
@@ -87,150 +87,150 @@ RSpec.describe CovidStateData do
         response_type: 'in_channel',
         blocks: [
           {
-            type: "section",
+            type: 'section',
             text: {
-              type: "mrkdwn",
-              text: "The most recent COVID data for *California*. Data as of *July 4th, 2020*."
+              type: 'mrkdwn',
+              text: 'The most recent COVID data for *California*. Data as of *July 4th, 2020*.'
             }
           },
           {
-            type: "section",
+            type: 'section',
             fields: [
               {
-                type: "mrkdwn",
-                text: "*Total Positive Cases*"
+                type: 'mrkdwn',
+                text: '*Total Positive Cases*'
               },
               {
-                type: "mrkdwn",
-                text: "*New Positive Cases*"
+                type: 'mrkdwn',
+                text: '*New Positive Cases*'
               },
               {
-                type: "plain_text",
-                text: "100"
+                type: 'plain_text',
+                text: '100'
               },
               {
-                type: "plain_text",
-                text: "5"
+                type: 'plain_text',
+                text: '5'
               }
             ]
           },
           {
-            type: "section",
+            type: 'section',
             fields: [
               {
-                type: "mrkdwn",
-                text: "*Total Negative Cases*"
+                type: 'mrkdwn',
+                text: '*Total Negative Cases*'
               },
               {
-                type: "mrkdwn",
-                text: "*New Negative Cases*"
+                type: 'mrkdwn',
+                text: '*New Negative Cases*'
               },
               {
-                type: "plain_text",
-                text: "2,000"
+                type: 'plain_text',
+                text: '2,000'
               },
               {
-                type: "plain_text",
-                text: "200"
+                type: 'plain_text',
+                text: '200'
               }
             ]
           },
           {
-            type: "section",
+            type: 'section',
             fields: [
               {
-                type: "mrkdwn",
-                text: "*Total Deaths*"
+                type: 'mrkdwn',
+                text: '*Total Deaths*'
               },
               {
-                type: "mrkdwn",
-                text: "*New Deaths*"
+                type: 'mrkdwn',
+                text: '*New Deaths*'
               },
               {
-                type: "plain_text",
-                text: "50"
+                type: 'plain_text',
+                text: '50'
               },
               {
-                type: "plain_text",
-                text: "1"
+                type: 'plain_text',
+                text: '1'
               }
             ]
           },
           {
-            type: "divider"
+            type: 'divider'
           },
           {
-            type: "section",
+            type: 'section',
             fields: [
               {
-                type: "mrkdwn",
-                text: "*New Positive Cases (Daily Change)*"
+                type: 'mrkdwn',
+                text: '*New Positive Cases (Daily Change)*'
               },
               {
-                type: "mrkdwn",
-                text: "*Positive Cases (7-Day Moving Average)*"
+                type: 'mrkdwn',
+                text: '*Positive Cases (7-Day Moving Average)*'
               },
               {
-                type: "plain_text",
-                text: "-5"
+                type: 'plain_text',
+                text: '-5'
               },
               {
-                type: "plain_text",
-                text: "8"
+                type: 'plain_text',
+                text: '8'
               }
             ]
           },
           {
-            type: "section",
+            type: 'section',
             fields: [
               {
-                type: "mrkdwn",
-                text: "*New Negative Cases (Daily Change)*"
+                type: 'mrkdwn',
+                text: '*New Negative Cases (Daily Change)*'
               },
               {
-                type: "mrkdwn",
-                text: "*Negative Cases (7-Day Moving Average)*"
+                type: 'mrkdwn',
+                text: '*Negative Cases (7-Day Moving Average)*'
               },
               {
-                type: "plain_text",
-                text: "-200"
+                type: 'plain_text',
+                text: '-200'
               },
               {
-                type: "plain_text",
-                text: "314"
+                type: 'plain_text',
+                text: '314'
               }
             ]
           },
           {
-            type: "section",
+            type: 'section',
             fields: [
               {
-                type: "mrkdwn",
-                text: "*New Deaths (Daily Change)*"
+                type: 'mrkdwn',
+                text: '*New Deaths (Daily Change)*'
               },
               {
-                type: "mrkdwn",
-                text: "*Deaths (7-Day Moving Average)*"
+                type: 'mrkdwn',
+                text: '*Deaths (7-Day Moving Average)*'
               },
               {
-                type: "plain_text",
-                text: "-1"
+                type: 'plain_text',
+                text: '-1'
               },
               {
-                type: "plain_text",
-                text: "2"
+                type: 'plain_text',
+                text: '2'
               }
             ]
           },
           {
-            type: "divider"
+            type: 'divider'
           },
           {
-            type: "context",
+            type: 'context',
             elements: [
               {
-                type: "mrkdwn",
-                text: "Data provided by https://covidtracking.com/"
+                type: 'mrkdwn',
+                text: 'Data provided by https://covidtracking.com/'
               }
             ]
           }
