@@ -74,4 +74,31 @@ RSpec.describe SlackApiController do
       end
     end
   end
+
+  describe 'POST covid_usa_data' do
+    context 'validations' do
+      it 'validates command is present' do
+        post :covid_usa_data, params: { text: 'CA' }
+        expected = {
+          blocks: [
+            {
+              type: 'section',
+              text: {
+                type: 'plain_text',
+                text: 'Command must be provided.'
+              }
+            }
+          ]
+        }.to_json
+        expect(response.body).to eq(expected)
+      end
+    end
+
+    context 'calls CovidUsaData' do
+      specify do
+        expect(CovidUsaData).to receive(:call)
+        post :covid_usa_data, params: { command: '/covid_usa_data' }
+      end
+    end
+  end
 end

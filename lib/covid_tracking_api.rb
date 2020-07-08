@@ -20,4 +20,16 @@ class CovidTrackingApi
     response = self.class.get("/api/v1/states/#{state_code.downcase}/daily.json")
     JSON.parse(response.body, symbolize_names: true)
   end
+
+  # Fetches current COVID data for the United States.
+  def current_data_for_usa
+    response = self.class.get('/api/v1/us/current.json')
+    JSON.parse(response.body, symbolize_names: true)
+  end
+
+  # Fetches historic COVID data for the United States.
+  def historic_data_for_usa
+    response = self.class.get('/api/v1/us/daily.json')
+    JSON.parse(response.body, symbolize_names: true)
+  end
 end

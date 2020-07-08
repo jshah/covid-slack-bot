@@ -1,107 +1,50 @@
 # frozen_string_literal: true
 
-# Generates COVID data for a state inside a slack block element.
-class CovidStateData
+# Generates COVID data for the United States inside a slack block element.
+class CovidUsaData
   include ActionView::Helpers::NumberHelper
   include CovidDataHelpers
 
-  attr_reader :command_parameter
-
-  def self.call(command_parameter)
-    new(command_parameter).call
-  end
-
-  def initialize(command_parameter)
-    @command_parameter = command_parameter.downcase
+  def self.call
+    new.call
   end
 
   def call
-    return render_incorrect_parameter_length_response unless validate_command_parameter_length
-    return render_invalid_state_response unless validate_command_parameter_is_valid_state
-
-    current_state_data = current_state_data(command_parameter)
-    state = current_state_data[:state]
-    date = current_state_data[:date]
-    historic_state_data = historic_state_data(command_parameter)
-
+    current_us_data = current_data_for_usa.first
+    date = current_us_data[:date]
+    historic_us_data = historic_data_for_usa
     render_state_covid_data_response(
-      state_abbr_to_name(state),
       format_date_to_human_readable(date.to_s),
-      current_state_data[:positive],
-      current_state_data[:positiveIncrease],
-      current_state_data[:negative],
-      current_state_data[:negativeIncrease],
-      current_state_data[:death],
-      current_state_data[:deathIncrease],
-      calculate_day_over_day_change(historic_state_data, date, :positiveIncrease),
-      calculate_7_day_moving_average(historic_state_data, date, :positiveIncrease),
-      calculate_day_over_day_change(historic_state_data, date, :negativeIncrease),
-      calculate_7_day_moving_average(historic_state_data, date, :negativeIncrease),
-      calculate_day_over_day_change(historic_state_data, date, :deathIncrease),
-      calculate_7_day_moving_average(historic_state_data, date, :deathIncrease)
+      current_us_data[:positive],
+      current_us_data[:positiveIncrease],
+      current_us_data[:negative],
+      current_us_data[:negativeIncrease],
+      current_us_data[:death],
+      current_us_data[:deathIncrease],
+      calculate_day_over_day_change(historic_us_data, date, :positiveIncrease),
+      calculate_7_day_moving_average(historic_us_data, date, :positiveIncrease),
+      calculate_day_over_day_change(historic_us_data, date, :negativeIncrease),
+      calculate_7_day_moving_average(historic_us_data, date, :negativeIncrease),
+      calculate_day_over_day_change(historic_us_data, date, :deathIncrease),
+      calculate_7_day_moving_average(historic_us_data, date, :deathIncrease)
     )
   end
 
   private
 
-  def validate_command_parameter_length
-    command_parameter.split(/\s+/).length == 1
-  end
-
-  def validate_command_parameter_is_valid_state
-    us_country.subregions.coded(command_parameter).present?
-  end
-
   def covid_tracker_api
     @covid_tracker_api ||= CovidTrackingApi.new
   end
 
-  def current_state_data(state_code)
-    covid_tracker_api.current_data_for_state(state_code)
+  def current_data_for_usa
+    covid_tracker_api.current_data_for_usa
   end
 
-  def historic_state_data(state_code)
-    covid_tracker_api.historic_data_for_state(state_code)
-  end
-
-  def us_country
-    @us_country ||= Carmen::Country.coded('US')
-  end
-
-  def state_abbr_to_name(state_abbr)
-    us_country.subregions.coded(state_abbr).name
-  end
-
-  def render_incorrect_parameter_length_response
-    {
-      blocks: [
-        {
-          type: 'section',
-          text: {
-            type: 'plain_text',
-            text: 'Too many parameters passed into command.'
-          }
-        }
-      ]
-    }.to_json
-  end
-
-  def render_invalid_state_response
-    {
-      blocks: [
-        {
-          type: 'section',
-          text: {
-            type: 'plain_text',
-            text: 'Could not recognize state code.'
-          }
-        }
-      ]
-    }.to_json
+  def historic_data_for_usa
+    covid_tracker_api.historic_data_for_usa
   end
 
   def render_state_covid_data_response(
-    state,
     date,
     total_positive,
     daily_positive_difference,
@@ -123,7 +66,7 @@ class CovidStateData
           type: 'section',
           text: {
             type: 'mrkdwn',
-            text: "The most recent COVID data for *#{state}*. Data as of *#{date}*."
+            text: "The most recent COVID data for the *United States*. Data as of *#{date}*."
           }
         },
         {

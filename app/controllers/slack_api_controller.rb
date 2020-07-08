@@ -4,11 +4,14 @@
 class SlackApiController < ApplicationController
   before_action :verify_slack_request_authenticity
   before_action :validate_command
-  before_action :validate_text
+  before_action :validate_text, only: [:covid_state_data]
 
   def covid_state_data
-    slack_response = CovidStateData.call(params[:text])
-    render json: slack_response, status: :ok
+    render json: CovidStateData.call(params[:text]), status: :ok
+  end
+
+  def covid_usa_data
+    render json: CovidUsaData.call, status: :ok
   end
 
   private
