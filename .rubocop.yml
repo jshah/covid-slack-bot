@@ -8,6 +8,7 @@ AllCops:
     - 'spec/fixtures/**/*'
     - 'tmp/**/*'
     - 'out/**/*'
+    - 'bin/**/*'
   NewCops: enable
   TargetRubyVersion: 2.6.2
 
@@ -30,4 +31,7 @@ Metrics/ParameterLists:
   Max: 20
 
 Style/RedundantException:
+  Enabled: false
+
+Style/SymbolArray:
   Enabled: false

@@ -2,8 +2,8 @@
 
 # Handles API events from Slack
 class SlackApiController < ApplicationController
-  before_action :verify_slack_request_authenticity
-  before_action :validate_command
+  before_action :verify_slack_request_authenticity, except: [:slack_oauth]
+  before_action :validate_command, only: [:covid_state_data, :covid_usa_data]
   before_action :validate_text, only: [:covid_state_data]
 
   def covid_state_data
@@ -12,6 +12,12 @@ class SlackApiController < ApplicationController
 
   def covid_usa_data
     render json: CovidUsaData.call, status: :ok
+  end
+
+  def slack_oauth
+    SlackOauthExchangeApi.exchange_code_for_access_token(params[:code])
+    success_html = '<html><body><h1>Success!</h1></body></html>'.html_safe
+    render html: success_html, status: :ok
   end
 
   private
