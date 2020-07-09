@@ -17,7 +17,7 @@ class SlackApiController < ApplicationController
   def slack_oauth
     SlackOauthExchangeApi.exchange_code_for_access_token(params[:code])
     success_html = '<html><body><h1>Success!</h1></body></html>'.html_safe
-    render html: success_html, status: :ok
+    render html: success_html, status: :found
   end
 
   private
