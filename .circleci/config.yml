@@ -14,10 +14,10 @@ jobs:
           command: |
             gem install bundler -v 2.1.4
             bundle install --jobs=4 --retry=3 --path vendor/bundle
-      - run:
-          name: Which bundler?
-          command: bundle -v
       - ruby/bundle-install
+      - run: mkdir ~/rspec
       - run:
-          name: Run RSpecs
-          command: bundle exec rspec
+          command: bundle exec rspec --format progress --format RspecJunitFormatter -o ~/rspec/rspec.xml
+          when: always
+      - store_test_results:
+          path: ~/rspec
