@@ -15,6 +15,9 @@ AllCops:
 Layout/EmptyLineAfterGuardClause:
   Enabled: false
 
+Layout/LineLength:
+  Max: 160
+
 Metrics/AbcSize:
   Enabled: false
 

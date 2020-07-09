@@ -101,4 +101,74 @@ RSpec.describe SlackApiController do
       end
     end
   end
+
+  describe 'POST covid_tracker_help' do
+    context 'validations' do
+      it 'validates command is present' do
+        post :covid_usa_data, params: { text: 'CA' }
+        expected = {
+          blocks: [
+            {
+              type: 'section',
+              text: {
+                type: 'plain_text',
+                text: 'Command must be provided.'
+              }
+            }
+          ]
+        }.to_json
+        expect(response.body).to eq(expected)
+      end
+    end
+
+    context 'returns covid-tracker-help information' do
+      specify do
+        expected = {
+          blocks: [
+            {
+              type: 'section',
+              text: {
+                type: 'mrkdwn',
+                text: '*Supported Commands*'
+              }
+            },
+            {
+              type: 'section',
+              text: {
+                type: 'mrkdwn',
+                text: '*/covid-state-data [state code]* - _Fetches COVID data for state_'
+              }
+            },
+            {
+              type: 'section',
+              text: {
+                type: 'mrkdwn',
+                text: '*/covid-usa-data* - _Fetches COVID data for the United States_'
+              }
+            },
+            {
+              type: 'section',
+              text: {
+                type: 'mrkdwn',
+                text: '*/covid-tracker-help* - _Displays help information for Covid Tracker_'
+              }
+            },
+            {
+              type: 'divider'
+            },
+            {
+              type: 'section',
+              text: {
+                type: 'mrkdwn',
+                text: 'Covid Tracker is open source. You can find the source code on <https://github.com/jshah/covid-slack-bot|github>.' \
+                       ' If you have any issues or requests, please submit a ticket on the github repository.'
+              }
+            }
+          ]
+        }.to_json
+        post :covid_tracker_help, params: { command: '/covid_usa_data' }
+        expect(response.body).to eq(expected)
+      end
+    end
+  end
 end
