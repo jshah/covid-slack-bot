@@ -1,0 +1,33 @@
+version: 2.1
+orbs:
+  ruby: circleci/ruby@0.1.2
+
+jobs:
+  build:
+    docker:
+      - image: circleci/ruby:2.6.2-stretch-node
+      - image: circleci/postgres:12.2
+        environment:
+          POSTGRES_USER: "postgres"
+          POSTGRES_DB: "covid-db"
+          POSTGRES_HOST_AUTH_METHOD: 'trust'
+    executor: ruby/default
+    steps:
+      - checkout
+      - run:
+          name: Install Dependencies
+          command: |
+            gem install bundler -v 2.1.4
+            bundle install --jobs=4 --retry=3 --path vendor/bundle
+      - ruby/bundle-install
+      - run:
+          name: Database Setup
+          command: |
+            bundle exec rake db:create
+            bundle exec rake db:migrate
+      - run: mkdir ~/rspec
+      - run:
+          command: bundle exec rspec --format progress --format RspecJunitFormatter -o ~/rspec/rspec.xml
+          when: always
+      - store_test_results:
+          path: ~/rspec
