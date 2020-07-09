@@ -13,6 +13,7 @@
 !/log/.keep
 !/tmp/.keep
 /out/
+.DS_Store
 
 # Ignore uploaded files in development
 /storage/*
