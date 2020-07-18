@@ -1,10 +1,12 @@
 # Covid Tracker
 
-Covid Tracker is a slack bot that uses data from https://covidtracking.com/ (updated daily) and displays it in Slack.
+Covid Tracker is a slack bot that consumes data from [The Covid Tracking Project](https://covidtracking.com/) API (updated daily) and displays it in Slack.
 
 ## Installation
 
 Click [here](https://slack.com/oauth/v2/authorize?client_id=712956700342.1215553228262&scope=commands) to install Covid Tracker in your workspace. 
+
+Covid Tracker is not listed on the Slack app directory because Slack is only accepting COVID related applications from official sources (understandable). Nevertheless, Covid Tracker is open source, so you can see exactly what you're installing and verify the code behind displaying this data. [The Covid Tracking Project](https://covidtracking.com/) is a trusted source for data on COVID-19.
 
 ## Features
 
@@ -26,21 +28,18 @@ _Fetches COVID data about the United States as of today._
 
 ![Covid USA Data](public/images/covid-usa-data.png)
 
-## Support
-
-Please create an issue with your request.
-
-
 ## FAQ
+
+**How can I report a problem?**
+
+Create an issue on the Github repository.
 
 **Can I Contribute?**
 
-Yes. Please fork this repo and submit a PR. I will review it, test it manually, and merge it in.
-
-**Will COVID data from other countries be supported?**
-
-If there are enough requests, I can work on getting it implemented. Please make an issue with desired country.
+Yes! Please fork this repository and submit a pull request. I will review it, test it manually, and merge it in.
 
 ## Attributions
+
+[The Covid Tracking Project](https://covidtracking.com/) for providing data.
 
 Covid Tracker's app icon is made by Freepik from https://www.flaticon.com/.
