@@ -8,7 +8,7 @@ gem 'bootsnap', '>= 1.1.0', require: false
 gem 'carmen', '1.1.2'
 gem 'httparty', '0.17.3'
 gem 'pg', '>= 0.18', '< 2.0'
-gem 'puma', '~> 3.11'
+gem 'puma', '~> 4.3'
 gem 'rails', '~> 5.2.4', '>= 5.2.4.3'
 gem 'redis', '~> 4.0'
 gem 'rubocop', '~> 0.86.0', require: false
